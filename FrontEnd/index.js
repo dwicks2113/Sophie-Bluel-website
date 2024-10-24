@@ -16,6 +16,7 @@ fetch('http://localhost:5678/api/works')
 
     for (const work of works) {
       console.log('work:', work)
+      createGalleryItem(work)
     }
   })
 
@@ -40,34 +41,54 @@ fetch('http://localhost:5678/api/works')
 //7. update figcaption with title from work
 //8. appendChild figcaption to figure
 //9. grab gallery querySelector
+
 //10. appendChild figure to gallery
 
-//
 // Create a figure element
-const figure = document.createElement('figure')
+// Create a new button element
+// const button = document.createElement('button')
 
-// Create an img element and set its src and alt attributes
-const img = document.createElement('img')
-// img.src = 'assets/images/appartement-paris-v.png'
-// img.alt = 'Paris V Appartment'
+// // Set the button's text content
+// button.textContent = ''
 
-// Append the img to the figure
-figure.appendChild(img)
+// // Add a click event listener to the button
+// button.addEventListener('click', function () {
+//   alert('Button clicked!')
+// })
 
-// Create a figcaption element
-const figcaption = document.createElement('figcaption')
+// // Append the button to a container element
+// document.getElementById('buttonContainer').appendChild
 
-// Create a text node for the caption and append it to the figcaption
-const captionText = document.createTextNode('Paris V Appartment')
-figcaption.appendChild(captionText)
+function createGalleryItem (work) {
+  const figure = document.createElement('figure')
 
-// Append the figcaption to the figure
-figure.appendChild(figcaption)
+  // Create an img element and set its src and alt attributes
+  const img = document.createElement('img')
+  const title = document.createElement('title')
 
-// Append the figure to the gallery element
-const gallery = document.querySelector('.gallery')
-if (gallery) {
-  gallery.appendChild(figure)
+  img.src = work.imageUrl
+  title.src = work.title
+
+  //  img.alt = works.name
+  // Append the img to the figure
+  figure.appendChild(img)
+  figure.appendChild(title)
+
+  // Create a figcaption element
+  // const title = document.createElement('title')
+  // title.src = work.title
+  // figure.appendChild(title)
+
+  // Create a text node for the caption and append it to the figcaption
+  // const captionText = document.createTextNode('')
+  // figcaption.appendChild(captionText)
+
+  // Append the figcaption to the figure
+  // figure.appendChild(figcaption)
+
+  // Append the figure to the gallery element
+  const gallery = document.querySelector('.gallery')
+  if (gallery) {
+    gallery.appendChild(figure)
+  }
 }
-
-// document.body.appendChild(figure);
