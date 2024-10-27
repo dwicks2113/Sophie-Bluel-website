@@ -46,45 +46,53 @@ fetch('http://localhost:5678/api/works')
 
 // Create a figure element
 // Create a new button element
-// const button = document.createElement('button')
+const button = document.createElement('button')
+
+
+
+//function to create buttons dynamically
+function createButton(text, onClick) {
+  const button = document.createElement('button');
+  button.textContent = text;
+  button.addEventListener('click', onClick);
+    return text.src=works.category.name;
+}
+
+
 
 // // Set the button's text content
-// button.textContent = ''
+const buttonContainer = document.getElementById('buttonContainer')
+for (let i = 1; i <= 3; i++) {
+  const button = createButton(`Button ${i}`, () => alert('Button ${i} clicked!')
 
-// // Add a click event listener to the button
-// button.addEventListener('click', function () {
-//   alert('Button clicked!')
-// })
+  // set button.text = document.getElementById(category.name)
+  //   else 
+  //   const button = createButton('All')
+  )
+  buttonContainer.appendChild(button)
+}
 
-// // Append the button to a container element
-// document.getElementById('buttonContainer').appendChild
+
+
+
+
 
 function createGalleryItem (work) {
   const figure = document.createElement('figure')
 
   // Create an img element and set its src and alt attributes
   const img = document.createElement('img')
-  const title = document.createElement('title')
-
+  const figCaption = document.createElement('title')
   img.src = work.imageUrl
-  title.src = work.title
+  figCaption.src = work.title
 
-  //  img.alt = works.name
   // Append the img to the figure
   figure.appendChild(img)
-  figure.appendChild(title)
-
+  
   // Create a figcaption element
-  // const title = document.createElement('title')
-  // title.src = work.title
-  // figure.appendChild(title)
+  figure.appendChild(figCaption)
 
-  // Create a text node for the caption and append it to the figcaption
-  // const captionText = document.createTextNode('')
-  // figcaption.appendChild(captionText)
-
-  // Append the figcaption to the figure
-  // figure.appendChild(figcaption)
+ 
 
   // Append the figure to the gallery element
   const gallery = document.querySelector('.gallery')
