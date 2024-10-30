@@ -44,37 +44,23 @@ fetch('http://localhost:5678/api/works')
 
 //10. appendChild figure to gallery
 
-// Create a figure element
+
 // Create a new button element
 const button = document.createElement('button')
 
-
+//create button for each category name/id
+//for each create button i++
+//create one button to pull all works (All)
+//add style to button and onclick to pull only jobs under that category id
 
 //function to create buttons dynamically
-function createButton(text, onClick) {
-  const button = document.createElement('button');
-  button.textContent = text;
-  button.addEventListener('click', onClick);
-    return text.src=works.category.name;
-}
-
-
-
-// // Set the button's text content
-const buttonContainer = document.getElementById('buttonContainer')
-for (let i = 1; i <= 3; i++) {
-  const button = createButton(`Button ${i}`, () => alert('Button ${i} clicked!')
-
-  // set button.text = document.getElementById(category.name)
-  //   else 
-  //   const button = createButton('All')
-  )
-  buttonContainer.appendChild(button)
-}
-
-
-
-
+// function createButton(text, onClick) {
+//   const button = document.createElement('button');
+//   button.textContent = work.category.name[0];
+//       // return text=work.category.name[0];
+//     document.body.appendChild(button);
+// }
+// button.addEventListener('click', onClick);
 
 
 function createGalleryItem (work) {
@@ -82,9 +68,11 @@ function createGalleryItem (work) {
 
   // Create an img element and set its src and alt attributes
   const img = document.createElement('img')
-  const figCaption = document.createElement('title')
+  const figCaption = document.createElement('figCaption')
   img.src = work.imageUrl
-  figCaption.src = work.title
+  // console.log('work title is', work.title)
+ 
+  figCaption.textContent = work.title
 
   // Append the img to the figure
   figure.appendChild(img)
