@@ -46,7 +46,25 @@ fetch('http://localhost:5678/api/works')
 
 
 // Create a new button element
-const button = document.createElement('button')
+
+
+
+
+const btn = document.createElement('button')
+const btnContainer = document.getElementById('btn-container')
+btnContainer.appendChild(btn)
+btn.textContent = 'All'
+// const filterBtnName = work.category.name
+// btn.textContent = work.category.name;
+console.log('this works')
+
+// function getfilterBtnNames () {
+//   const filterBtn = work.category{name}
+//   console.log('This works too')
+// }
+
+//  document.header.appendChild(btn)
+
 
 //create button for each category name/id
 //for each create button i++
@@ -80,9 +98,7 @@ function createGalleryItem (work) {
   // Create a figcaption element
   figure.appendChild(figCaption)
 
- 
-
-  // Append the figure to the gallery element
+   // Append the figure to the gallery element
   const gallery = document.querySelector('.gallery')
   if (gallery) {
     gallery.appendChild(figure)

@@ -126,8 +126,19 @@ li:hover {
 	margin-bottom: 1em;
 }
 
-.button {
+.btn-container {
+	display: flex;
+	align-items: center;
+	border-style: solid;
+}
+.btn {
 	text-align: center;
+	border-radius: 20%;
+	border-color: #1D6154;
+	border-style: solid;
+	margin: 1em;
+	font-size: 2em;
+	
 }
 
 .gallery {
@@ -142,6 +153,12 @@ li:hover {
 	width: 100%;
 
 }
+
+.figcaption {
+	font-size: 2em;
+	font-weight: bold;
+}
+
 #contact {
 	width: 50%;
 margin: auto;
