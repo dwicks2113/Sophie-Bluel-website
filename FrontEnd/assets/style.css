@@ -132,12 +132,13 @@ li:hover {
 	border-style: solid;
 	margin: 20px;
 }
-.filter-buttons {
+.button {
 	text-align: center;
 	border-radius: 20%;
 	border-color: #1D6154;
 	border-style: solid;
 	margin: 1em;
+	gap: 50px;
 	font-size: 2em;
 	
 }
