@@ -130,8 +130,9 @@ li:hover {
 	display: flex;
 	align-items: center;
 	border-style: solid;
+	margin: 20px;
 }
-.btn {
+.filter-buttons {
 	text-align: center;
 	border-radius: 20%;
 	border-color: #1D6154;
