@@ -86,9 +86,11 @@ work.forEach(item => {
   const category = item.category // Initialize 'category' here
   const button = document.createElement('button')
   button.style.backgroundColor = '#1d61544c'
-  button.style.borderRadius = 20
+  button.style.margin = '1em'
+  button.style.borderRadius = '20%'
   button.textContent = category.name
-  console.log(category.name)
+  // console.log(category.name)
+  console.log(category.categoryId)
   button.setAttribute('category', category.name) 
 
   // Append the button to the container
@@ -117,8 +119,8 @@ work.forEach(item => {
 //add style to button and onclick to pull only jobs under that category id
 
 // function filterBtn () {
-//   // const catID = document.createElement('categoryID')
-//   // const catName = document.createElement('categoryName')
+   const catID = document.createElement('categoryID')
+const catName = document.createElement('categoryName')
 // //   
 
 
@@ -137,7 +139,7 @@ function createGalleryItem (work) {
   
   figCaption.textContent = work.title
   // catName.textContent = work.category.name
-  // catID.textContent = work.category.id
+  catID.textContent = work.category.id
   
 
   // Append the img to the figure
@@ -145,8 +147,8 @@ function createGalleryItem (work) {
   
   // Create a figcaption element
   figure.appendChild(figCaption);
-  // figure.appendChild(catName);
-  // figure.appendChild(catID);
+  figure.appendChild(catName);
+   figure.appendChild(catID);
 
    // Append the figure to the gallery element
   const gallery = document.querySelector('.gallery')
