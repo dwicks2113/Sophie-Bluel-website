@@ -10,14 +10,16 @@ fetch('http://localhost:5678/api/works')
   .then(works => {
     // console.log(works)
     // for each item in array,
-      // const categories = new Set(work, category) // Use a Set to store unique category IDs
-    //   // Loop through each work and add its category ID to the Set
-    // works.forEach(work => {
-    //   if (work.category) {
+      const categories = new Set(work, 'category') // Use a Set to store unique category IDs
+      // Loop through each work and add its category ID to the Set
+     works.forEach(work => {
+     if (work.category) {
     //     // Ensure category exists
-    //     categories.add(work.category)
-    //   }
+       categories.add(work.category)
+       
 
+      }
+    })
 
     for (const work of works) {
       console.log('work:', work)
@@ -29,13 +31,6 @@ fetch('http://localhost:5678/api/works')
   .catch(error => {
     console.error('Error fetching data:', error)
   })
-
-//create html element
-//          <figure>
-//				<img src="assets/images/appartement-paris-v.png" alt="Paris V Appartment">
-//				<figcaption>Paris V Appartment</figcaption>
-//			</figure>
-//attach element to gallery
 
 
 // Create a new button element
@@ -71,7 +66,8 @@ fetch('http://localhost:5678/api/works')
   //   btnContainer.appendChild(button)
    
   const btnContainer = document.getElementById('btn-container')
-
+  const catName = document.createElement('categoryName')
+  
 // Assuming 'work' is an array of objects with a 'category' property
 const work = [
   { category: { name: 'All' } },
@@ -89,70 +85,115 @@ work.forEach(item => {
   button.style.margin = '1em'
   button.style.borderRadius = '20%'
   button.textContent = category.name
-  // console.log(category.name)
-  console.log(category.categoryId)
-  button.setAttribute('category', category.name) 
 
-  // Append the button to the container
+  button.setAttribute('category', category.name) 
+  button.addEventListener('click', () => {
+  alert('Button was clicked!')
+})
   btnContainer.appendChild(button)
 })
 
 
-
-
-// catName.textContent = work.category.name
-
-// const btn = document.createElement('button')
-// // const btnContainer = document.getElementById('btn-container')
-// btnContainer.appendChild(btn)
-// btn.textContent = catName
-
-
-// const filterBtnName = work.category.name
-// btn.textContent = work.category.name;
-
-
-
-//create button for each category name/id
-//for each create button i++
-//create one button to pull all works (All)
-//add style to button and onclick to pull only jobs under that category id
-
-// function filterBtn () {
-   const catID = document.createElement('categoryID')
-const catName = document.createElement('categoryName')
-// //   
-
-
-// }
-
-
 function createGalleryItem (work) {
   const figure = document.createElement('figure')
-
+  const catID = document.createElement('categoryID')
+    const catName = document.createElement('categoryName')
   // Create an img element and set its src and alt attributes
   const img = document.createElement('img')
   const figCaption = document.createElement('figCaption')
-  
-
-  img.src = work.imageUrl
+  const alt = document.createElement('alt')
+  // const alt = document.getElementById('alt')
+    img.src = work.imageUrl
   
   figCaption.textContent = work.title
-  // catName.textContent = work.category.name
+  catName.textContent=work.category.name
+  alt.textContent = work.alt
   catID.textContent = work.category.id
   
+  console.log(work.category.id) // logging category.Id properly
+  console.log(work.category.name)  //this works
+  console.log(work.title)
 
-  // Append the img to the figure
+   // Append the img to the figure
   figure.appendChild(img)
   
   // Create a figcaption element
   figure.appendChild(figCaption);
-  figure.appendChild(catName);
-   figure.appendChild(catID);
+  // figure.appendChild(catName);  //appends catName and catID under figCaption on Images
+  // figure.appendChild(catID);
+  
+   
+  
+  // Set the alt attribute of the image
+  image.setAttribute('alt', alt)
+  // alt.setAttribute('alt', work.title);
+  
+  
+  
+  // Set mouseover event to show Alt tag
+  img.addEventListener('mouseover', function () {
+      alt.textContent = alt.getAttribute('alt', work.title);
+      alt.style.visibility = 'visible';
+      console.log('This works')
+  });
+
+  img.addEventListener('mouseout', function() {
+    alt.style.visibility = 'hidden';
+    console.log('This works, too')
+  });
+
+  // Set the alt attribute of the image
+// image.setAttribute('alt', 'An example image')
+
+// Optionally, verify the alt attribute was added
+// console.log(img.getAttribute('alt'))
+
+// Optionally, verify the alt attribute was added
+//console.log(img.getAttribute('alt'))
 
    // Append the figure to the gallery element
   const gallery = document.querySelector('.gallery')
   if (gallery) {
     gallery.appendChild(figure)
   }
-}
+ }
+
+
+
+
+  
+// // POST request using fetch with error handling
+// const element = document.querySelector(
+//   '#post-request-error-handling .article-id'
+// )
+// const requestOptions = {
+//   method: 'POST',
+//   headers: { 'Content-Type': 'application/json' },
+//   body: JSON.stringify({ title: 'Fetch POST Request Example' })
+// }
+// fetch('https://reqres.in/invalid-url', requestOptions)
+//   .then(async response => {
+//     const isJson = response.headers
+//       .get('content-type')
+//       ?.includes('application/json')
+//     const data = isJson && (await response.json())
+
+//     // check for error response
+//     if (!response.ok) {
+//       // get error message from body or default to response status
+//       const error = (data && data.message) || response.status
+//       return Promise.reject(error)
+//     }
+
+//     element.innerHTML = data.id
+//   })
+//   .catch(error => {
+//     element.parentElement.innerHTML = `Error: ${error}`
+//     console.error('There was an error!', error)
+//   })
+
+
+ 
+
+ 
+
