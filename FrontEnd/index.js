@@ -1,8 +1,55 @@
 // fetch data from work endpoint(url) -- see Thunderclient or Swagger
-// for each item in array,
-// create html element
 
-//attach element to gallery
+
+document.addEventListener("DOMContentLoaded", function(){
+  const btnContainer = document.getElementById('btn-container');
+  const gallery = document.querySelector('.gallery')
+
+   
+  // let btnContainer = document.getElementById('btn-container');
+  // const catName = document.createElement('category.name');
+  // const btnID = document.createElement('filter-button');
+
+//create buttons for categories and assign category ID number to each button
+// document.addEventListener("DOMContentLoaded", function() {
+const work = [
+  { category: { name: 'All', btnID: 0 } },
+  { category: { name: 'Objects', btnID: 1} },
+  { category: { name: 'Hotels and Restaurants', btnID: 3} },
+  { category: { name: 'Apartments', btnID: 2} }
+ 
+];
+
+
+
+// For each unique category, create a button
+work.forEach(item => {
+  // const btnContainer = document.getElementById('btn-container')
+  const category = item.category.name; // Initialize 'category' here
+  const button = document.createElement('button');
+  button.className = 'button';
+  // button.style.backgroundColor = 'white';
+  // button.style.margin = '2em';
+  // button.style.borderRadius = '30%';
+  button.textContent = category;
+  button.dataset.catID = item.category.btnID;
+
+ button.addEventListener('click', () => {
+  filterGallery(item.category.btnID);
+});
+
+button.addEventListener('mouseover', () => {
+  button.classList.add('hover');
+});
+
+button.addEventListener('mouseout', () => {
+  button.classList.remove('hover');
+});
+
+
+  btnContainer.appendChild(button);
+});
+
 fetch('http://localhost:5678/api/works')
   .then(response => {
     return response.json()
@@ -10,14 +57,12 @@ fetch('http://localhost:5678/api/works')
   .then(works => {
     // console.log(works)
     // for each item in array,
-      const categories = new Set(work, 'category') // Use a Set to store unique category IDs
-      // Loop through each work and add its category ID to the Set
-     works.forEach(work => {
-     if (work.category) {
-    //     // Ensure category exists
-       categories.add(work.category)
-       
-
+    const categories = new Set(work, 'category') // Use a Set to store unique category IDs
+    // Loop through each work and add its category ID to the Set
+    works.forEach(work => {
+      if (work.category) {
+        //     // Ensure category exists
+        categories.add(work.category)
       }
     })
 
@@ -33,131 +78,36 @@ fetch('http://localhost:5678/api/works')
   })
 
 
-// Create a new button element
-
-// Fetch data from the API
-// fetch('http://localhost:5678/api/works')
-//   .then(response => response.json())
-//   .then(works => {
-//     const categories = new Set() // Use a Set to store unique category IDs
-
-//     // Loop through each work and add its category ID to the Set
-//    let category = document.querySelectorAll('.category.name') // Example for NodeList
-// category.forEach(work => {
-//   // Your code here
-// // })
-// // forEach(work => {
-//       if (work.category) {
-//         // Ensure category exists
-//         category.add(work.category)
-//        }
-  //  const btnContainer = document.getElementById('btn-container');
-  //   // })
-  //   const category = document.createElement(category.name);
-  //   // const categories = querySelector(work.category.name)
-  // // For each unique category, create a button
-  //   // catName.forEach('work:category', => {
-  //     const button = document.createElement('button');
-  //     button.textContent = category // Set the button's text to the category ID or name
-  //     console.log(category);
-  //   button.setAttribute('category', category); // Set data-filter attribute for filtering
-
-  //   // // Append the button to the container
-  //   btnContainer.appendChild(button)
-   
-  const btnContainer = document.getElementById('btn-container')
-  const catName = document.createElement('categoryName')
-  
-// Assuming 'work' is an array of objects with a 'category' property
-const work = [
-  { category: { name: 'All' } },
-  { category: { name: 'Objects' } },
-  { category: { name: 'Hotels and Restaurants'} },
-  { category: { name: 'Apartments'} },
-  // Add more objects as needed
-]
-
-// For each unique category, create a button
-work.forEach(item => {
-  const category = item.category // Initialize 'category' here
-  const button = document.createElement('button')
-  button.style.backgroundColor = '#1d61544c'
-  button.style.margin = '1em'
-  button.style.borderRadius = '20%'
-  button.textContent = category.name
-
-  button.setAttribute('category', category.name) 
-  button.addEventListener('click', () => {
-  alert('Button was clicked!')
-})
-  btnContainer.appendChild(button)
-})
-
-
 function createGalleryItem (work) {
   const figure = document.createElement('figure')
-  const catID = document.createElement('categoryID')
-    const catName = document.createElement('categoryName')
-  // Create an img element and set its src and alt attributes
   const img = document.createElement('img')
   const figCaption = document.createElement('figCaption')
-  const alt = document.createElement('alt')
-  // const alt = document.getElementById('alt')
-    img.src = work.imageUrl
   
-  figCaption.textContent = work.title
-  catName.textContent=work.category.name
-  alt.textContent = work.alt
-  catID.textContent = work.category.id
-  
-  console.log(work.category.id) // logging category.Id properly
-  console.log(work.category.name)  //this works
-  console.log(work.title)
+    img.src = work.imageUrl;
+    img.alt = work.title;
+    figCaption.textContent = work.title
 
-   // Append the img to the figure
-  figure.appendChild(img)
-  
-  // Create a figcaption element
-  figure.appendChild(figCaption);
-  // figure.appendChild(catName);  //appends catName and catID under figCaption on Images
-  // figure.appendChild(catID);
-  
-   
-  
-  // Set the alt attribute of the image
-  image.setAttribute('alt', alt)
-  // alt.setAttribute('alt', work.title);
-  
-  
-  
-  // Set mouseover event to show Alt tag
-  img.addEventListener('mouseover', function () {
-      alt.textContent = alt.getAttribute('alt', work.title);
-      alt.style.visibility = 'visible';
-      console.log('This works')
-  });
+  figure.dataset.catID = work.category.btnID;
+  figure.appendChild(img);   // Append the img to the figure
+  figure.appendChild(figCaption);  // Create a figcaption element
 
-  img.addEventListener('mouseout', function() {
-    alt.style.visibility = 'hidden';
-    console.log('This works, too')
-  });
-
-  // Set the alt attribute of the image
-// image.setAttribute('alt', 'An example image')
-
-// Optionally, verify the alt attribute was added
-// console.log(img.getAttribute('alt'))
-
-// Optionally, verify the alt attribute was added
-//console.log(img.getAttribute('alt'))
-
-   // Append the figure to the gallery element
-  const gallery = document.querySelector('.gallery')
-  if (gallery) {
+   if (gallery) {
     gallery.appendChild(figure)
+  } else {
+    console.error('Gallery Element not found')
   }
  }
 
+function filterGallery(catID) {
+  const figures = gallery.querySelectorAll('figure');
+  figures.forEach(figure => {
+    if(catID===0 || figure.dataset.catID == catID) {
+      figure.style.display = 'block';
+    } else {
+    figure.style.display = 'none';
+   }
+  });
+}
 
 
 
@@ -195,5 +145,4 @@ function createGalleryItem (work) {
 
  
 
- 
-
+})
