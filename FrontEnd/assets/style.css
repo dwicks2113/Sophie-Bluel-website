@@ -148,11 +148,22 @@ li:hover {
 	border-color: #1D6154;
 	border-style: solid;
 	margin: 2em;
-	gap: 50px;
+	padding: 10px 20px;
 	font-size: 1em;
+	cursor: pointer;
 	
 }
 
+figure {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+img {
+	max-width: 100%;
+	border-radius: 5px;
+}
 .button.hover {
 	background-color: darkseagreen;
 } 

@@ -5,8 +5,16 @@ document.addEventListener("DOMContentLoaded", function(){
   const btnContainer = document.getElementById('btn-container');
   const gallery = document.querySelector('.gallery')
 
-  
-
+  function filterGallery(catID) {
+  const figures = gallery.querySelectorAll('figure');
+  figures.forEach(figure => {
+    if(catID === 0 || figure.dataset.catID == catID) {
+      figure.style.display = 'block';
+    } else {
+    figure.style.display = 'none';
+   }
+  });
+  }
 //create buttons for categories and assign category ID number to each button
 
 const work = [
@@ -19,7 +27,6 @@ const work = [
 // For each unique category, create a button
 work.forEach(item => {
 
-  const btnContainer = document.getElementById('btn-container')
   const category = item.category.name; // Initialize 'category' here
   const button = document.createElement('button');
   button.className = 'button';
@@ -27,7 +34,10 @@ work.forEach(item => {
   button.textContent = category;
   button.dataset.catID = item.category.btnID;
 
+  
+
  button.addEventListener('click', () => {
+  console.log('Button clicked: ${category}, btnID: ${item.category.btnID}');
   filterGallery(item.category.btnID);
 });
 
@@ -44,23 +54,22 @@ button.addEventListener('mouseout', () => {
 });
 
 fetch('http://localhost:5678/api/works')
-  .then(response => {
-    return response.json()
-  })
+  .then(response => {response.json()
   .then(works => {
-    const categories = new Set(work, 'category') // Use a Set to store unique category IDs
-    // Loop through each work and add its category ID to the Set
-    works.forEach(work => {
+    const categories = new Set() // Use a Set to store unique category IDs
+    
+   works.forEach(work => {
       if (work.category) {
         //     // Ensure category exists
         categories.add(work.category)
       }
-    })
+    });
 
-    for (const work of works) {
+    works.forEach (work => {
+
       console.log('work:', work)
       createGalleryItem(work)
-    }
+    });
   })
 
   // catch error
@@ -69,14 +78,14 @@ fetch('http://localhost:5678/api/works')
   })
 
 
-function createGalleryItem (work) {
+function createGalleryItem(work) {
   const figure = document.createElement('figure')
   const img = document.createElement('img')
   const figCaption = document.createElement('figCaption')
   
     img.src = work.imageUrl;
     img.alt = work.title;
-    figCaption.textContent = work.title
+    figCaption.textContent = work.title;
 
   figure.dataset.catID = work.category.btnID;
   figure.appendChild(img);   // Append the img to the figure
@@ -88,16 +97,15 @@ function createGalleryItem (work) {
     console.error('Gallery Element not found')
   }
  }
+});
 
-function filterGallery(btnID) {
-  const figures = gallery.querySelectorAll('figure');
-  figures.forEach(figure => {
-    if(btnID===0 || figure.dataset.btnID == btnID) {
-      figure.style.display = 'block';
-    } else {
-    figure.style.display = 'none';
-   }
-  });
-
-  }
+// function filterGallery(catID) {
+//   const figures = gallery.querySelectorAll('figure');
+//   figures.forEach(figure => {
+//     if(catID === 0 || figure.dataset.catID == catID) {
+//       figure.style.display = 'block';
+//     } else {
+//     figure.style.display = 'none';
+//    }
+//   });
 })
