@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
   function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
   figures.forEach(figure => {
+    console.log(figure.dataset)
     if(catID === 0 || figure.dataset.catID == catID) {
       figure.style.display = 'block';
     } else {
@@ -37,7 +38,7 @@ work.forEach(item => {
   
 
  button.addEventListener('click', () => {
-  console.log('Button clicked: ${category}, btnID: ${item.category.btnID}');
+  console.log(`Button clicked: ${category}, btnID: ${item.category.btnID}`);
   filterGallery(item.category.btnID);
 });
 
@@ -87,7 +88,8 @@ function createGalleryItem(work) {
     img.alt = work.title;
     figCaption.textContent = work.title;
 
-  figure.dataset.catID = work.category.btnID;
+  figure.dataset.catID = work.category.id;
+  // console.log(`Created gallery item with catID: ${work.category.id}`)
   figure.appendChild(img);   // Append the img to the figure
   figure.appendChild(figCaption);  // Create a figcaption element
 
