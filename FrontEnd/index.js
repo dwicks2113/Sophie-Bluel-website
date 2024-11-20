@@ -101,13 +101,4 @@ function createGalleryItem(work) {
  }
 });
 
-// function filterGallery(catID) {
-//   const figures = gallery.querySelectorAll('figure');
-//   figures.forEach(figure => {
-//     if(catID === 0 || figure.dataset.catID == catID) {
-//       figure.style.display = 'block';
-//     } else {
-//     figure.style.display = 'none';
-//    }
-//   });
 })
