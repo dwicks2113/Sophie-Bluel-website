@@ -148,9 +148,54 @@ li:hover {
 	background-color: darkseagreen;
 } 
 
-.login-box {
+#login-box {
 	display: flex;
-	justify-items: center;
+	flex-direction: column;
+	width: 300px;
+	margin: 0 auto;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	background-color: #fff;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	text-align: left;
+}
+
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+button {
+	width: 100%;
+	padding: 10px;
+	background-color: #1D6154;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #145043;
+}
+
+#login-email, #login-password {
+	margin-bottom: 10px;
+}
+
+h3 {
+font-size: 1.5em;
 }
 
 .gallery {
