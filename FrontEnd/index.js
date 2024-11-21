@@ -61,7 +61,7 @@ fetch('http://localhost:5678/api/works')
     
    works.forEach(work => {
       if (work.category) {
-        //     // Ensure category exists
+        //    Ensure category exists
         categories.add(work.category)
       }
     });
@@ -102,3 +102,6 @@ function createGalleryItem(work) {
 });
 
 })
+
+
+
