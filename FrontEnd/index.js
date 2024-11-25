@@ -3,7 +3,8 @@
 
 document.addEventListener("DOMContentLoaded", function(){
   const btnContainer = document.getElementById('btn-container');
-  const gallery = document.querySelector('.gallery')
+  const gallery = document.querySelector('.gallery');
+
 
   function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
@@ -53,6 +54,39 @@ button.addEventListener('mouseout', () => {
 
   btnContainer.appendChild(button);
 });
+
+  document.addEventListener('DOMContentLoaded', function () {
+  const projectsLink = document.getElementById('projects-link');
+  const closeModalButton = document.getElementById('close-modal');
+  const modal = document.getElementById('modal');
+
+  //function to open modal
+
+  projectsLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    modal.style.display = 'flex';
+  
+
+    const script = document.createElement('script');
+    script.src = 'projectmgmt.js';
+    script.type = 'text/javascript';
+    document.body.appendChild(script);
+  })
+
+  //function to close modal
+
+  closeModalButton.addEventListener('click', function () {
+    modal.style.display = 'none'
+  })
+
+  //close the modal window when clicking outside modal content
+  window.addEventListener('click', function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none'
+    }
+  });
+});
+
 
 fetch('http://localhost:5678/api/works')
   .then(response => {response.json()
