@@ -1,14 +1,13 @@
 
-document.addEventListener("DOMContentLoaded", function() {
     const openModalButton = document.getElementById('open-modal');
     const closeModalButton = document.getElementById('close-modal');
     const modal = document.getElementById('modal');
 
     //function to open modal
 
-    openModalButton.addEventListener('click', function() {
-        modal.style.display = 'flex';
-    });
+    // openModalButton.addEventListener('click', function() {
+    //     modal.style.display = 'flex';
+    // });
 
     //function to close modal
 
@@ -23,4 +22,3 @@ document.addEventListener("DOMContentLoaded", function() {
             modal.style.display = 'none';
         }
     });
-});

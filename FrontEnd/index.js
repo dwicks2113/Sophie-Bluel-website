@@ -36,9 +36,7 @@ work.forEach(item => {
   button.textContent = category;
   button.dataset.catID = item.category.btnID;
 
-  
-
- button.addEventListener('click', () => {
+  button.addEventListener('click', () => {
   console.log(`Button clicked: ${category}, btnID: ${item.category.btnID}`);
   filterGallery(item.category.btnID);
 });
@@ -51,11 +49,9 @@ button.addEventListener('mouseout', () => {
   button.classList.remove('hover');
 });
 
-
-  btnContainer.appendChild(button);
+btnContainer.appendChild(button);
 });
 
-  document.addEventListener('DOMContentLoaded', function () {
   const projectsLink = document.getElementById('projects-link');
   const closeModalButton = document.getElementById('close-modal');
   const modal = document.getElementById('modal');
@@ -71,22 +67,20 @@ button.addEventListener('mouseout', () => {
     script.src = 'projectmgmt.js';
     script.type = 'text/javascript';
     document.body.appendChild(script);
-  })
+  });
 
   //function to close modal
 
   closeModalButton.addEventListener('click', function () {
-    modal.style.display = 'none'
-  })
+    modal.style.display = 'none';
+  });
 
   //close the modal window when clicking outside modal content
   window.addEventListener('click', function (event) {
     if (event.target == modal) {
-      modal.style.display = 'none'
+      modal.style.display = 'none';
     }
   });
-});
-
 
 fetch('http://localhost:5678/api/works')
   .then(response => {response.json()
@@ -101,7 +95,6 @@ fetch('http://localhost:5678/api/works')
     });
 
     works.forEach (work => {
-
       console.log('work:', work)
       createGalleryItem(work)
     });
@@ -110,13 +103,13 @@ fetch('http://localhost:5678/api/works')
   // catch error
   .catch(error => {
     console.error('Error fetching data:', error)
-  })
+  });
 
 
 function createGalleryItem(work) {
-  const figure = document.createElement('figure')
-  const img = document.createElement('img')
-  const figCaption = document.createElement('figCaption')
+  const figure = document.createElement('figure');
+  const img = document.createElement('img');
+  const figCaption = document.createElement('figCaption');
   
     img.src = work.imageUrl;
     img.alt = work.title;
@@ -134,8 +127,4 @@ function createGalleryItem(work) {
   }
  }
 });
-
 })
-
-
-
