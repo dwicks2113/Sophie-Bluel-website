@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function(){
   const closeModalButton = document.getElementById('close-modal')
   const modal = document.getElementById('modal')
   const thumbnailContainer = document.getElementById('thumbnail-container')
-
+  const addPhotoButton = document.getElementById('add-photo');
+  const photoInput = document.getElementById('photo-input');
 
   function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
@@ -49,7 +50,7 @@ work.forEach(item => {
   button.dataset.catID = item.category.btnID;
 
   button.addEventListener('click', () => {
-  console.log(`Button clicked: ${category}, btnID: ${item.category.btnID}`);
+  //console.log(`Button clicked: ${category}, btnID: ${item.category.btnID}`);
   filterGallery(item.category.btnID);
 });
 
@@ -103,6 +104,46 @@ btnContainer.appendChild(button);
   window.addEventListener('click', function (event) {
     if (event.target == modal) {
       modal.style.display = 'none';
+    }
+  });
+
+  //add photo
+  addPhotoButton.addEventListener('click', () => {
+    photoInput.click();
+  });
+
+  //upload photo
+  photoInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('photo', file);
+
+      fetch('http://localhost:5678/api/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json()
+      .then(data => {
+        if (data.success) {
+          console.log('Photo uploaded successfully.');
+            const work = {
+              imageUrl: data.imageUrl,
+              title: file.name
+            };
+      
+
+        //add to gallery and modal
+        createGalleryItem(work);
+        createThumbnail(work);
+      } else {
+        alert('Failed to upload photo: ' + (data.message || 'Unknown error'));
+      }
+      })
+      .catch(error => {
+        console.error('Error uploading photo: ' + error);
+        alert('Failed to upload photo: ' + error.message);
+      }))
     }
   });
 
