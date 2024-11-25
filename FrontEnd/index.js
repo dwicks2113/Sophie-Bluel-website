@@ -4,6 +4,10 @@
 document.addEventListener("DOMContentLoaded", function(){
   const btnContainer = document.getElementById('btn-container');
   const gallery = document.querySelector('.gallery');
+  const projectsLink = document.getElementById('projects-link')
+  const closeModalButton = document.getElementById('close-modal')
+  const modal = document.getElementById('modal')
+  const thumbnailContainer = document.getElementById('thumbnail-container')
 
 
   function filterGallery(catID) {
@@ -16,6 +20,14 @@ document.addEventListener("DOMContentLoaded", function(){
     figure.style.display = 'none';
    }
   });
+  }
+
+  function createThumbnail(work) {
+    const thumbnail = document.createElement('img');
+    thumbnail.src = work.imageUrl;
+    thumbnail.alt = work.title;
+    thumbnail.classList.add('thumbnail');
+    thumbnailContainer.appendChild(thumbnail);
   }
 //create buttons for categories and assign category ID number to each button
 
@@ -52,17 +64,29 @@ button.addEventListener('mouseout', () => {
 btnContainer.appendChild(button);
 });
 
-  const projectsLink = document.getElementById('projects-link');
-  const closeModalButton = document.getElementById('close-modal');
-  const modal = document.getElementById('modal');
+
 
   //function to open modal
 
   projectsLink.addEventListener('click', function(event) {
     event.preventDefault();
     modal.style.display = 'flex';
+    thumbnailContainer.innerHTML = '';  // clear previous thumbnail
   
+    //add thumbnails to the  modal window
+    const figures = gallery.querySelectorAll('figure');
+    figures.forEach(figure => {
+      const img = figure.querySelector('img');
+      const title = figure.querySelector('figcaption').textContent;
+      const work = {
+        imageUrl: img.src,
+        title: title
+      };
+      createThumbnail(work);
+    });
 
+
+//load projectmgmt.js script
     const script = document.createElement('script');
     script.src = 'projectmgmt.js';
     script.type = 'text/javascript';

@@ -189,6 +189,12 @@ li:hover {
 	cursor: pointer;
 }
 
+.thumbnail {
+	width: 50px;
+	height: auto;
+	margin: 5px;
+}
+
 figure {
 	margin: 0;
 	padding: 0;
