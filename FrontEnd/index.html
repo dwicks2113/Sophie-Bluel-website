@@ -33,10 +33,37 @@
         <h2>Photo Gallery</h2>
         <div id="thumbnail-container"></div>
         <button id="add-photo">Add a photo</button>
-        <input type="file" id="photo-input" style="display:none" accept="image/*"/>
+        <!-- <input type="file" id="photo-input" style="display:none" accept="image/*"/> -->
         
       </div>
     </div>
+
+    <!-- Window for adding photo  -->"
+
+    <div id="add-photo-modal" class="modal">
+      <div class="modal-content">
+        <span id="close-add-photo-modal" class="close">&times;</span>
+        <h2>Add a Photo</h2>
+        <form id="add-photo-form">
+          <label for="photo-file">Select Image:</label>
+          <input type="file" id="photo-file" accept="image/*" required><br><br>
+
+          <label for="photo-title">Title:</label>
+          <input type="text" id="photo-title" required><br><br>
+
+          <label for="photo-category">Category:</label>
+          <select id="photo-category" required>
+            <option value="1">Objects</option>
+            <option value="2">Apartments</option>
+            <option value="3">Hotels and Restaurants</option>
+          </select><br><br>
+
+          <button type="submit">Upload Photo</button>
+          </form>
+      </div>>
+    </div>
+
+
     <main>
       <section id="introduction">
         <figure>

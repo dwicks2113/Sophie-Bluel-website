@@ -4,17 +4,21 @@
 document.addEventListener("DOMContentLoaded", function(){
   const btnContainer = document.getElementById('btn-container');
   const gallery = document.querySelector('.gallery');
-  const projectsLink = document.getElementById('projects-link')
-  const closeModalButton = document.getElementById('close-modal')
-  const modal = document.getElementById('modal')
+  const projectsLink = document.getElementById('projects-link');
+  const closeModalButton = document.getElementById('close-modal');
+  const modal = document.getElementById('modal');
   const thumbnailContainer = document.getElementById('thumbnail-container')
   const addPhotoButton = document.getElementById('add-photo');
-  const photoInput = document.getElementById('photo-input');
+  // const photoInput = document.getElementById('photo-input');
+  const addPhotoModal = document.getElementById('add-photo-modal');
+  const closeAddPhotoModalButton = document.getElementById('close-add-photo-modal');
+  const addPhotoForm = document.getElementById('add-photo-form');
+
 
   function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
   figures.forEach(figure => {
-    console.log(figure.dataset)
+    console.log(figure.dataset);
     if(catID === 0 || figure.dataset.catID == catID) {
       figure.style.display = 'block';
     } else {
@@ -85,16 +89,9 @@ btnContainer.appendChild(button);
       };
       createThumbnail(work);
     });
-
-
-//load projectmgmt.js script
-    const script = document.createElement('script');
-    script.src = 'projectmgmt.js';
-    script.type = 'text/javascript';
-    document.body.appendChild(script);
   });
 
-  //function to close modal
+   //function to close modal
 
   closeModalButton.addEventListener('click', function () {
     modal.style.display = 'none';
@@ -109,17 +106,27 @@ btnContainer.appendChild(button);
 
   //add photo
   addPhotoButton.addEventListener('click', () => {
-    photoInput.click();
+    addPhotoModal.style.display = 'flex';
   });
 
-  //upload photo
-  photoInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('photo', file);
+  closeAddPhotoModalButton.addEventListener('click', () => {
+    addPhotoModal.style.display = 'none';
+  });
 
-      fetch('http://localhost:5678/api/upload', {
+  addPhotoForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const photoFile = document.getElementById('photo-file').files[0];
+    const photoTitle = document.getElementById('photo-title').value;
+    const photoCategory = document.getElementById('photo-category').value;
+
+    if (photoFile) {
+      const formData = new FormData();
+      formData.append('photo', photoFile);
+      formData.append('title', photoTitle);
+      formData.append('category', photoCategory);
+   
+      fetch('http://localhost:5678/api/works', {
         method: 'POST',
         body: formData
       })
@@ -127,25 +134,29 @@ btnContainer.appendChild(button);
       .then(data => {
         if (data.success) {
           console.log('Photo uploaded successfully.');
+
             const work = {
               imageUrl: data.imageUrl,
-              title: file.name
+              title: photoTitle,
+              category: {id: photoCategory }
             };
       
 
         //add to gallery and modal
         createGalleryItem(work);
         createThumbnail(work);
-      } else {
+
+        addPhotoModal.style.display = 'none';
+        } else {
         alert('Failed to upload photo: ' + (data.message || 'Unknown error'));
-      }
+        }
       })
       .catch(error => {
         console.error('Error uploading photo: ' + error);
         alert('Failed to upload photo: ' + error.message);
       }))
     }
-  });
+});
 
 fetch('http://localhost:5678/api/works')
   .then(response => {response.json()
@@ -188,8 +199,8 @@ function createGalleryItem(work) {
    if (gallery) {
     gallery.appendChild(figure)
   } else {
-    console.error('Gallery Element not found')
+    console.error('Gallery Element not found');
   }
  }
-});
+})
 })
