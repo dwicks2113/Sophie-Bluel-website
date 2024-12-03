@@ -28,11 +28,28 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   function createThumbnail(work) {
+    const thumbnailContainer = document.createElement('div');
+    thumbnailContainer.classList.add('thumbnail-container');
+
     const thumbnail = document.createElement('img');
     thumbnail.src = work.imageUrl;
     thumbnail.alt = work.title;
     thumbnail.classList.add('thumbnail');
+
+    const trashIcon = document.createElement('span');
+    trashIcon.classList.add('trash-icon');
+    trashIcon.innerHTML = '&#128465';
+
+    trashIcon.addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete this photo?')) {
+        thumbnailContainer.remove();
+      }
+      });
+
     thumbnailContainer.appendChild(thumbnail);
+    thumbnailContainer.appendChild(trashIcon);
+    document.getElementById('thumbnail-container').appendChild(thumbnailContainer);
+
   }
 //create buttons for categories and assign category ID number to each button
 
