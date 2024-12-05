@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", function(){
   const closeAddPhotoModalButton = document.getElementById('close-add-photo-modal');
   const addPhotoForm = document.getElementById('add-photo-form');
 
+//function to check for valid login token
+  function isLoggedIn() {
+    const token = localStorage.getItem('token');
+    return token !== null;
+  }
 
   function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
@@ -92,6 +97,13 @@ btnContainer.appendChild(button);
 
   projectsLink.addEventListener('click', function(event) {
     event.preventDefault();
+
+    if (!isLoggedIn()) {
+      alert('Please log in to view the projects.');
+      window.location.href = 'login.html';
+      return;
+    }
+
     modal.style.display = 'flex';
     thumbnailContainer.innerHTML = '';  // clear previous thumbnail
   
@@ -208,16 +220,15 @@ function createGalleryItem(work) {
     img.alt = work.title;
     figCaption.textContent = work.title;
 
-  figure.dataset.catID = work.category.id;
-  // console.log(`Created gallery item with catID: ${work.category.id}`)
-  figure.appendChild(img);   // Append the img to the figure
-  figure.appendChild(figCaption);  // Create a figcaption element
+    figure.dataset.catID = work.category.id;
+    figure.appendChild(img);  
+    figure.appendChild(figCaption);
 
-   if (gallery) {
-    gallery.appendChild(figure)
-  } else {
-    console.error('Gallery Element not found');
+    if (gallery) {
+      gallery.appendChild(figure)
+    } else {
+      console.error('Gallery Element not found');
   }
  }
 })
-})
+});
