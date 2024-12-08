@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function(){
           return;
         }
 
-        thumbnailContainer.remove();
+        // thumbnailContainer.remove();
 
 //    let headersList = {
 //   Accept: '*/*',
@@ -68,22 +68,41 @@ document.addEventListener("DOMContentLoaded", function(){
 //     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMzMzNzUyMSwiZXhwIjoxNzMzNDIzOTIxfQ.3VRsoOvl_gQrqWbQ3NG2d2WhIeGVXpGrQ13njaVl0DY'
 // }
 
-fetch('http://localhost:5678/api/works/${work.id}', {
+fetch(`http://localhost:5678/api/works/${work.id}`, {
   method: 'DELETE',
   headers: {
-    'Authorization':  'Bearer ${token}'
+    'Authorization':  `Bearer ${token}`
   }
 })
 
 .then(response => {
   if (!response.ok) {
-    throw new Error
+    throw new Error('Network response was not ok');
   }
+  return response.text();
 })
-console.log(data)
+.then(data => {
+  console.log(data);
+  //remove thumbnail from modal
+  thumbnailContainer.remove();
+  //remove the item from the main gallery
+  const mainGalleryItem = document.querySelector('.gallery figure[data-id="${work.id}"]');
+  if (mainGalleryItem) {
+    mainGalleryItem.remove();
+  }
+    alert('Photo deleted successfully.');
+  })
+  .catch (error => {
+    console.error('Error deleting photo:', error);
+    alert('Failed to delete photo: ' + error.message);
+  });
+  }
+});
 
-      }
-      });
+// console.log(data)
+
+//       }
+//       });
 
     thumbnailContainer.appendChild(thumbnail);
     thumbnailContainer.appendChild(trashIcon);
@@ -182,7 +201,7 @@ btnContainer.appendChild(button);
     const photoFile = document.getElementById('photo-file').files[0];
     const photoTitle = document.getElementById('photo-title').value;
     const photoCategory = document.getElementById('photo-category').value;
-    const token = getToken();
+    const token = localStorage.getItem('token');
     console.log('Token is ', token);
 
     if (photoFile && token) {
@@ -194,11 +213,17 @@ btnContainer.appendChild(button);
       fetch('http://localhost:5678/api/works', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ${token}'
+          'Authorization': `Bearer ${token}`
         },
         body: formData
       })
-      .then(response => response.json()
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok: ' +response.statusText);
+         }
+         return response.json();
+        })
+
       .then(data => {
         if (data.success) {
           console.log('Photo uploaded successfully.');
@@ -206,7 +231,7 @@ btnContainer.appendChild(button);
             const work = {
               imageUrl: data.imageUrl,
               title: photoTitle,
-              category: {id: photoCategory }
+              category: {id: photoCategory}
             };
       
 
@@ -222,7 +247,7 @@ btnContainer.appendChild(button);
       .catch(error => {
         console.error('Error uploading photo: ' + error);
         alert('Failed to upload photo: ' + error.message);
-      }));
+      });
     } else {
       alert('Token not found. Please log in again.');
       window.location.href = 'login.html';
@@ -255,6 +280,7 @@ fetch('http://localhost:5678/api/works')
 
 function createGalleryItem(work) {
   const figure = document.createElement('figure');
+  figure.dataset.id = work.id;  // add data-id attribute
   const img = document.createElement('img');
   const figCaption = document.createElement('figCaption');
   
