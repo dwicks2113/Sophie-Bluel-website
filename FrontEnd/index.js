@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", function(){
     return token !== null;
   }
 
+  function getToken() {
+    const token = localStorage.getItem('token');
+    return token !== null;
+  }
+
   function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
   figures.forEach(figure => {
@@ -47,7 +52,36 @@ document.addEventListener("DOMContentLoaded", function(){
 
     trashIcon.addEventListener('click', () => {
       if (confirm('Are you sure you want to delete this photo?')) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('Token not found. Please log in again.');
+          window.location.href = 'login.html';
+          return;
+        }
+
         thumbnailContainer.remove();
+
+//    let headersList = {
+//   Accept: '*/*',
+//   'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+//   Authorization:
+//     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMzMzNzUyMSwiZXhwIjoxNzMzNDIzOTIxfQ.3VRsoOvl_gQrqWbQ3NG2d2WhIeGVXpGrQ13njaVl0DY'
+// }
+
+fetch('http://localhost:5678/api/works/${work.id}', {
+  method: 'DELETE',
+  headers: {
+    'Authorization':  'Bearer ${token}'
+  }
+})
+
+.then(response => {
+  if (!response.ok) {
+    throw new Error
+  }
+})
+console.log(data)
+
       }
       });
 
@@ -122,12 +156,12 @@ btnContainer.appendChild(button);
 
    //function to close modal
 
-  closeModalButton.addEventListener('click', function () {
+  closeModalButton.addEventListener('click', function() {
     modal.style.display = 'none';
   });
 
   //close the modal window when clicking outside modal content
-  window.addEventListener('click', function (event) {
+  window.addEventListener('click', function(event) {
     if (event.target == modal) {
       modal.style.display = 'none';
     }
@@ -148,8 +182,10 @@ btnContainer.appendChild(button);
     const photoFile = document.getElementById('photo-file').files[0];
     const photoTitle = document.getElementById('photo-title').value;
     const photoCategory = document.getElementById('photo-category').value;
+    const token = getToken();
+    console.log('Token is ', token);
 
-    if (photoFile) {
+    if (photoFile && token) {
       const formData = new FormData();
       formData.append('photo', photoFile);
       formData.append('title', photoTitle);
@@ -157,6 +193,9 @@ btnContainer.appendChild(button);
    
       fetch('http://localhost:5678/api/works', {
         method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ${token}'
+        },
         body: formData
       })
       .then(response => response.json()
@@ -183,7 +222,10 @@ btnContainer.appendChild(button);
       .catch(error => {
         console.error('Error uploading photo: ' + error);
         alert('Failed to upload photo: ' + error.message);
-      }))
+      }));
+    } else {
+      alert('Token not found. Please log in again.');
+      window.location.href = 'login.html';
     }
 });
 
@@ -230,5 +272,5 @@ function createGalleryItem(work) {
       console.error('Gallery Element not found');
   }
  }
-})
 });
+})
