@@ -59,16 +59,9 @@ document.addEventListener("DOMContentLoaded", function(){
           return;
         }
 
-        // thumbnailContainer.remove();
+ 
 
-//    let headersList = {
-//   Accept: '*/*',
-//   'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-//   Authorization:
-//     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMzMzNzUyMSwiZXhwIjoxNzMzNDIzOTIxfQ.3VRsoOvl_gQrqWbQ3NG2d2WhIeGVXpGrQ13njaVl0DY'
-// }
-
-fetch(`http://localhost:5678/api/works/${work.id}`, {
+fetch('http://localhost:5678/api/works/${work.id}', {
   method: 'DELETE',
   headers: {
     'Authorization':  `Bearer ${token}`
@@ -83,10 +76,10 @@ fetch(`http://localhost:5678/api/works/${work.id}`, {
 })
 .then(data => {
   console.log(data);
-  //remove thumbnail from modal
+        //remove thumbnail from modal
   thumbnailContainer.remove();
-  //remove the item from the main gallery
-  const mainGalleryItem = document.querySelector('.gallery figure[data-id="${work.id}"]');
+        //remove the item from the main gallery
+  const mainGalleryItem = document.querySelector(`.gallery figure[data-id="${work.id}"]`);
   if (mainGalleryItem) {
     mainGalleryItem.remove();
   }
