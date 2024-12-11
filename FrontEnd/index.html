@@ -41,13 +41,9 @@
     <div id="add-photo-modal" class="modal">
       <div class="modal-content">
         <span id="close-add-photo-modal" class="close">&times;</span>
-        
         <h2>Add a Photo</h2>
         <form id="add-photo-form">
-          
-           
-              
-            <div class="photo-upload-box"> 
+        <div class="photo-upload-box"> 
              <i class="fa-solid fa-image"></i><br> 
              <button type="button" id="upload-button" class="add-photo-button"> 
               <i class="fa-regular fa-plus"></i> Add Photo</button> 
@@ -55,19 +51,20 @@
              <p class="upload-info">jpg, png: max 4MB</p></div>
             <input type="file" id="photo-file" accept="image/*" required><br><br>
             </div>  
-          
+          <div class="form-group">
 
           <label for="photo-title">Title:</label>
           <input type="text" id="photo-title" required><br><br>
-
-          <label for="photo-category">Category:</label>
-          <select id="photo-category" required>
-            <option value="">All</option>
-            <option value="1">Objects</option>
-            <option value="2">Apartments</option>
-            <option value="3">Hotels and Restaurants</option>
-          </select><br><br>
-
+          </div>
+          <div class="form-group">
+            <label for="photo-category">Category:</label>
+            <select id="photo-category" required>
+              <option value="">All</option>
+              <option value="1">Objects</option>
+              <option value="2">Apartments</option>
+              <option value="3">Hotels and Restaurants</option>
+            </select><br><br>
+        </div>
           <button type="submit">Confirm</button>
           </form>
       </div>
