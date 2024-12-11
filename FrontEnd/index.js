@@ -58,8 +58,9 @@ document.addEventListener("DOMContentLoaded", function(){
           window.location.href = 'login.html';
           return;
         }
+console.log('work', work)
 
- fetch('http://localhost:5678/api/works/${work.id}', {
+ fetch(`http://localhost:5678/api/works/${work.id}`, {
   method: 'DELETE',
   headers: {
     'Authorization':  `Bearer ${token}`
@@ -154,7 +155,8 @@ btnContainer.appendChild(button);
       const title = figure.querySelector('figcaption').textContent;
       const work = {
         imageUrl: img.src,
-        title: title
+        title: title,
+        id: figure.dataset.id 
       };
       createThumbnail(work);
     });
@@ -193,7 +195,7 @@ btnContainer.appendChild(button);
 
     if (photoFile && token) {
       const formData = new FormData();
-      formData.append('photo', photoFile);
+      formData.append('file', photoFile);
       formData.append('title', photoTitle);
       formData.append('category', photoCategory);
    
