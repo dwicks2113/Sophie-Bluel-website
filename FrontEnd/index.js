@@ -59,9 +59,7 @@ document.addEventListener("DOMContentLoaded", function(){
           return;
         }
 
- 
-
-fetch('http://localhost:5678/api/works/${work.id}', {
+ fetch('http://localhost:5678/api/works/${work.id}', {
   method: 'DELETE',
   headers: {
     'Authorization':  `Bearer ${token}`
@@ -92,10 +90,6 @@ fetch('http://localhost:5678/api/works/${work.id}', {
   }
 });
 
-// console.log(data)
-
-//       }
-//       });
 
     thumbnailContainer.appendChild(thumbnail);
     thumbnailContainer.appendChild(trashIcon);

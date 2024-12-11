@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" />
+      
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script defer src="index.js"></script>
   </head>
   <body>
@@ -33,7 +32,7 @@
         <h2>Photo Gallery</h2>
         <div id="thumbnail-container"></div>
         <button id="add-photo">Add a photo</button>
-        <!-- <input type="file" id="photo-input" style="display:none" accept="image/*"/> -->   
+       <input type="file" id="photo-file" accept="image/*" required>  
       </div>
     </div>
 
@@ -45,15 +44,25 @@
         <hr>
         <h2>Add a Photo</h2>
         <form id="add-photo-form">
-          <label for="photo-file">Select Image:</label>
-          <input type="file" id="photo-file" accept="image/*" required><br><br>
+          
+            <div class="add-photo-label">
+          <!-- <label for="photo-file"> -->
+              <i class="fa-solid fa-image"></i><br>
+            <div class="photo-upload-box"> 
+              <button type="button" id="upload-button" class="add-photo-button"></button>  
+              <i class="fa-regular fa-plus"></i> Add Photo
+              </button>          
+            </div>
+            <input type="file" id="photo-file" accept="image/*" required><br><br>
+            <p class="upload-info">jpg, png: max 4MB</p>
+          </div>
 
           <label for="photo-title">Title:</label>
           <input type="text" id="photo-title" required><br><br>
 
           <label for="photo-category">Category:</label>
           <select id="photo-category" required>
-            <option value="0">All</option>
+            <option value="">All</option>
             <option value="1">Objects</option>
             <option value="2">Apartments</option>
             <option value="3">Hotels and Restaurants</option>
@@ -61,7 +70,7 @@
 
           <button type="submit">Confirm</button>
           </form>
-      </div>>
+      </div>
     </div>
 
 
