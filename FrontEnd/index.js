@@ -14,6 +14,19 @@ document.addEventListener("DOMContentLoaded", function(){
   const closeAddPhotoModalButton = document.getElementById('close-add-photo-modal');
   const addPhotoForm = document.getElementById('add-photo-form');
 
+  //trigger file input for add photo
+  document.getElementById('upload-button').addEventListener('click', function() {
+    document.getElementById('photo-file').click();
+  });
+
+  document.getElementById('add-photo').addEventListener('click',function() {
+    document.getElementById('add-photo-modal').style.display = 'block';
+  });
+
+  document.getElementById('close-add-photo-modal').addEventListener('click', function() {
+    document.getElementById('add-photo-modal').style.display = 'none';
+  });
+
 //function to check for valid login token
   function isLoggedIn() {
     const token = localStorage.getItem('token');
@@ -174,7 +187,9 @@ btnContainer.appendChild(button);
       modal.style.display = 'none';
     }
   });
-
+document.getElementById('upload-button').addEventListener('click', function() {
+  document.getElementById('photo-file').click();
+});
   //add photo
   addPhotoButton.addEventListener('click', () => {
     addPhotoModal.style.display = 'flex';
@@ -195,7 +210,7 @@ btnContainer.appendChild(button);
 
     if (photoFile && token) {
       const formData = new FormData();
-      formData.append('file', photoFile);
+      formData.append('image', photoFile);
       formData.append('title', photoTitle);
       formData.append('category', photoCategory);
    

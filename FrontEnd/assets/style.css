@@ -251,6 +251,11 @@ button:hover {
 	margin: 20px 0;
 }
 
+.large-icon {
+	font-size: 125px;
+	
+}
+
 .close {
 	position: absolute;
 	top: 10px;
