@@ -190,7 +190,7 @@ btnContainer.appendChild(button);
 document.getElementById('upload-button').addEventListener('click', function() {
   document.getElementById('photo-file').click();
 });
-  //add photo
+
   addPhotoButton.addEventListener('click', () => {
     addPhotoModal.style.display = 'flex';
   });
@@ -206,8 +206,7 @@ document.getElementById('upload-button').addEventListener('click', function() {
     const photoTitle = document.getElementById('photo-title').value;
     const photoCategory = document.getElementById('photo-category').value;
     const token = localStorage.getItem('token');
-    console.log('Token is ', token);
-
+    
     if (photoFile && token) {
       const formData = new FormData();
       formData.append('image', photoFile);
@@ -228,6 +227,7 @@ document.getElementById('upload-button').addEventListener('click', function() {
          return response.json();
         })
 
+       
       .then(data => {
         if (data.success) {
           console.log('Photo uploaded successfully.');
@@ -243,6 +243,7 @@ document.getElementById('upload-button').addEventListener('click', function() {
         createGalleryItem(work);
         createThumbnail(work);
 
+        
         addPhotoModal.style.display = 'none';
         } else {
         alert('Failed to upload photo: ' + (data.message || 'Unknown error'));
