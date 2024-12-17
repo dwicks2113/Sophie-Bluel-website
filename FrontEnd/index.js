@@ -9,39 +9,114 @@ document.addEventListener("DOMContentLoaded", function(){
   const modal = document.getElementById('modal');
   const thumbnailContainer = document.getElementById('thumbnail-container')
   const addPhotoButton = document.getElementById('add-photo');
-  // const photoInput = document.getElementById('photo-input');
   const addPhotoModal = document.getElementById('add-photo-modal');
   const closeAddPhotoModalButton = document.getElementById('close-add-photo-modal');
   const addPhotoForm = document.getElementById('add-photo-form');
+  const uploadButton = document.getElementById('upload-button');
+  const photoFileInput = document.getElementById('photo-file');
+  const fileNameDisplay = document.createElement('p');
+  fileNameDisplay.className = 'file-name-display';
+  document.querySelector('.photo-upload-box').appendChild(fileNameDisplay);
 
-  //trigger file input for add photo
-  document.getElementById('upload-button').addEventListener('click', function() {
-    document.getElementById('photo-file').click();
+  //ensure modals are hidden by default
+  addPhotoModal.style.display = 'none';
+  modal.style.display = 'none';
+
+  //open file selection window when add photo button clicked
+  uploadButton.addEventListener('click', function() {
+    photoFileInput.click();
   });
 
-  document.getElementById('add-photo').addEventListener('click',function() {
-    document.getElementById('add-photo-modal').style.display = 'block';
-  });
-
-  document.getElementById('close-add-photo-modal').addEventListener('click', function() {
-    document.getElementById('add-photo-modal').style.display = 'none';
-  });
-
-//function to check for valid login token
-  function isLoggedIn() {
-    const token = localStorage.getItem('token');
-    return token !== null;
+  //make sure only one file input click is registered
+photoFileInput.addEventListener('change', function() {
+  if (photoFileInput.files.length > 0) {
+    const fileName = photoFileInput.files[0].name;
+    fileNameDisplay.textContent = `Selected file: ${fileName}`;
+    console.log(photoFileInput.files[0]);
+  } else {
+    fileNameDisplay.textContent = '';
   }
+});
 
-  function getToken() {
-    const token = localStorage.getItem('token');
-    return token !== null;
+//show add photo modal window
+addPhotoButton.addEventListener('click', function() {
+    addPhotoModal.style.display = 'block';
+  });
+
+  //close add photo modal window
+  closeAddPhotoModalButton.addEventListener('click', function() {
+    addPhotoModal.style.display = 'none';
+  })
+
+
+//form submission
+addPhotoForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const photoFile = photoFileInput.files[0];
+  const photoTitle = document.getElementById('photo-title').value;
+  const photoCategory = document.getElementById('photo-category').value;
+  const token = localStorage.getItem('token');
+
+  if (photoFile && token) {
+    const formData = new FormData();
+    formData.append('image', photoFile);
+    formData.append('title', photoTitle);
+    formData.append('category', photoCategory);
+
+    fetch('http://localhost:5678/api/works', {
+      method: `POST`,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        console.log('Photo uploaded successfully.');
+
+        const work = {
+          imageUrl: data.imageUrl,
+          title: photoTitle,
+          category: {id: photoCategory}
+        };
+
+        //Add to gallery and modal
+        createGalleryItem(work);
+        createThumbnail(work);
+
+        //close modal
+        addPhotoModal.style.display = 'none';
+        alert('Photo uploaded successfully!');
+       } else {
+        alert('Failed to upload photo: ' + (data.message || 'Unknown error'));
+       }
+})
+.catch(error => {
+  console.error('Error uploading photo: ' + error);
+  alert('Failed to upload photo: ' + error.message);
+});
+  } else {
+    alert('Token not found. Please log in again.');
+    window.location.href = 'login.html';
   }
+});
 
-  function filterGallery(catID) {
+function isLoggedIn() {
+  const token = localStorage.getItem('token');
+  return token !== null;
+}
+
+function filterGallery(catID) {
   const figures = gallery.querySelectorAll('figure');
   figures.forEach(figure => {
-    console.log(figure.dataset);
+    // console.log(figure.dataset);
     if(catID === 0 || figure.dataset.catID == catID) {
       figure.style.display = 'block';
     } else {
@@ -50,9 +125,74 @@ document.addEventListener("DOMContentLoaded", function(){
   });
   }
 
+  const work = [
+    { category: { name: 'All', btnID: 0 } },
+    { category: { name: 'Objects', btnID: 1 } },
+    { category: { name: 'Apartments', btnID: 2 } },
+    { category: { name: 'Hotels and Restaurants', btnID: 3 } }
+  ];
+
+  work.forEach(item => {
+    const category = item.category.name;
+    const button = document.createElement('button');
+    button.className = 'button';
+    button.textContent = category;
+    button.dataset.catID = item.category.btnID;
+
+    button.addEventListener('click', () => {
+      filterGallery(item.category.btnID);
+    });
+
+    button.addEventListener('mouseover', () => {
+      button.classList.add('hover');
+    });
+
+    button.addEventListener('mouseout', () => {
+      button.classList.remove('hover');
+    });
+
+    btnContainer.appendChild(button);
+  });
+
+  //function to open project modal
+  projectsLink.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    if (!isLoggedIn()) {
+      alert('Please log in to view the projects.');
+      window.location.href = 'login.html';
+      return;
+    } 
+
+    modal.style.display = 'flex';
+    thumbnailContainer.innerHTML = '';
+
+    // add thumbnails to the modal windows
+    const figures = gallery.querySelectorAll('figure');
+    figures.forEach(figure => {
+      const img = figure.querySelector('img');
+      const title = figure.querySelector('figcaption').textContent;
+      const work = {
+        imageUrl: img.src,
+        title: title,
+        id: figure.dataset.id
+      };
+      createThumbnail(work);
+    });
+  });
+
+  //function to close project modal
+  closeModalButton.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  //function to create thumbnail
   function createThumbnail(work) {
     const thumbnailContainer = document.createElement('div');
     thumbnailContainer.classList.add('thumbnail-container');
+    // thumbnail.dataset.id = work.id;
 
     const thumbnail = document.createElement('img');
     thumbnail.src = work.imageUrl;
@@ -71,8 +211,6 @@ document.addEventListener("DOMContentLoaded", function(){
           window.location.href = 'login.html';
           return;
         }
-console.log('work', work)
-
  fetch(`http://localhost:5678/api/works/${work.id}`, {
   method: 'DELETE',
   headers: {
@@ -86,6 +224,7 @@ console.log('work', work)
   }
   return response.text();
 })
+
 .then(data => {
   console.log(data);
         //remove thumbnail from modal
@@ -97,6 +236,7 @@ console.log('work', work)
   }
     alert('Photo deleted successfully.');
   })
+
   .catch (error => {
     console.error('Error deleting photo:', error);
     alert('Failed to delete photo: ' + error.message);
@@ -104,204 +244,51 @@ console.log('work', work)
   }
 });
 
+thumbnailContainer.appendChild(thumbnail);
+thumbnailContainer.appendChild(trashIcon);
+document.getElementById('thumbnail-container').appendChild(thumbnailContainer);
+}
 
-    thumbnailContainer.appendChild(thumbnail);
-    thumbnailContainer.appendChild(trashIcon);
-    document.getElementById('thumbnail-container').appendChild(thumbnailContainer);
-
-  }
-//create buttons for categories and assign category ID number to each button
-
-const work = [
-  { category: { name: 'All', btnID: 0 } },
-  { category: { name: 'Objects', btnID: 1} },
-  { category: { name: 'Apartments', btnID: 2} },
-  { category: { name: 'Hotels and Restaurants', btnID: 3} }
-];
-
-// For each unique category, create a button
-work.forEach(item => {
-
-  const category = item.category.name; // Initialize 'category' here
-  const button = document.createElement('button');
-  button.className = 'button';
-  
-  button.textContent = category;
-  button.dataset.catID = item.category.btnID;
-
-  button.addEventListener('click', () => {
-  //console.log(`Button clicked: ${category}, btnID: ${item.category.btnID}`);
-  filterGallery(item.category.btnID);
-});
-
-button.addEventListener('mouseover', () => {
-  button.classList.add('hover');
-});
-
-button.addEventListener('mouseout', () => {
-  button.classList.remove('hover');
-});
-
-btnContainer.appendChild(button);
-});
-
-
-
-  //function to open modal
-
-  projectsLink.addEventListener('click', function(event) {
-    event.preventDefault();
-
-    if (!isLoggedIn()) {
-      alert('Please log in to view the projects.');
-      window.location.href = 'login.html';
-      return;
-    }
-
-    modal.style.display = 'flex';
-    thumbnailContainer.innerHTML = '';  // clear previous thumbnail
-  
-    //add thumbnails to the  modal window
-    const figures = gallery.querySelectorAll('figure');
-    figures.forEach(figure => {
-      const img = figure.querySelector('img');
-      const title = figure.querySelector('figcaption').textContent;
-      const work = {
-        imageUrl: img.src,
-        title: title,
-        id: figure.dataset.id 
-      };
-      createThumbnail(work);
-    });
-  });
-
-   //function to close modal
-
-  closeModalButton.addEventListener('click', function() {
-    modal.style.display = 'none';
-  });
-
-  //close the modal window when clicking outside modal content
-  window.addEventListener('click', function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  });
-document.getElementById('upload-button').addEventListener('click', function() {
-  document.getElementById('photo-file').click();
-});
-
-  addPhotoButton.addEventListener('click', () => {
-    addPhotoModal.style.display = 'flex';
-  });
-
-  closeAddPhotoModalButton.addEventListener('click', () => {
-    addPhotoModal.style.display = 'none';
-  });
-
-  addPhotoForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const photoFile = document.getElementById('photo-file').files[0];
-    const photoTitle = document.getElementById('photo-title').value;
-    const photoCategory = document.getElementById('photo-category').value;
-    const token = localStorage.getItem('token');
-    
-    if (photoFile && token) {
-      const formData = new FormData();
-      formData.append('image', photoFile);
-      formData.append('title', photoTitle);
-      formData.append('category', photoCategory);
-   
-      fetch('http://localhost:5678/api/works', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok: ' +response.statusText);
-         }
-         return response.json();
-        })
-
-       
-      .then(data => {
-        if (data.success) {
-          console.log('Photo uploaded successfully.');
-
-            const work = {
-              imageUrl: data.imageUrl,
-              title: photoTitle,
-              category: {id: photoCategory}
-            };
-      
-
-        //add to gallery and modal
-        createGalleryItem(work);
-        createThumbnail(work);
-
-        
-        addPhotoModal.style.display = 'none';
-        } else {
-        alert('Failed to upload photo: ' + (data.message || 'Unknown error'));
-        }
-      })
-      .catch(error => {
-        console.error('Error uploading photo: ' + error);
-        alert('Failed to upload photo: ' + error.message);
-      });
-    } else {
-      alert('Token not found. Please log in again.');
-      window.location.href = 'login.html';
-    }
-});
-
+//fetch and display works
 fetch('http://localhost:5678/api/works')
-  .then(response => {response.json()
-  .then(works => {
-    const categories = new Set() // Use a Set to store unique category IDs
-    
-   works.forEach(work => {
-      if (work.category) {
-        //    Ensure category exists
-        categories.add(work.category)
-      }
-    });
+.then(response => response.json())
+.then(works => {
+  const categories = new Set();
 
-    works.forEach (work => {
-      console.log('work:', work)
-      createGalleryItem(work)
-    });
-  })
-
-  // catch error
-  .catch(error => {
-    console.error('Error fetching data:', error)
+  works.forEach(work => {
+    if (work.category) {
+      categories.add(work.category);
+    }
   });
 
+  works.forEach(work => {
+    console.log('work:', work);
+    createGalleryItem(work);
+  });
+})
+.catch(error => {
+  console.error('Error fetching data:', error);
+});
 
+//function to create gallery item
 function createGalleryItem(work) {
   const figure = document.createElement('figure');
-  figure.dataset.id = work.id;  // add data-id attribute
+  figure.dataset.id = work.id;
   const img = document.createElement('img');
-  const figCaption = document.createElement('figCaption');
-  
-    img.src = work.imageUrl;
-    img.alt = work.title;
-    figCaption.textContent = work.title;
+  const figCaption = document.createElement('figcaption');
 
-    figure.dataset.catID = work.category.id;
-    figure.appendChild(img);  
-    figure.appendChild(figCaption);
+  img.src = work.imageUrl;
+  img.alt = work.title;
+  figCaption.textContent = work.title;
 
-    if (gallery) {
-      gallery.appendChild(figure)
-    } else {
-      console.error('Gallery Element not found');
+  figure.dataset.catID = work.category.id;
+  figure.appendChild(img);
+  figure.appendChild(figCaption);
+
+  if (gallery) {
+    gallery.appendChild(figure);
+  } else {
+    console.error('Gallery Element not found.');
   }
- }
-});
+}
 })
