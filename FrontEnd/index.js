@@ -15,18 +15,11 @@ document.addEventListener("DOMContentLoaded", function(){
   const uploadButton = document.getElementById('upload-button');
   const photoFileInput = document.getElementById('photo-file');
   const photoPreview = document.getElementById('photoPreview');
-  const fileNameDisplay = document.createElement('p');
-  // const formElement = document.querySelector('form');
-  // if (formElement) {
-  //   formElement.addEventListener('submit', function(event) {
-  //     const files = formElement.querySelector('input[type="file"]').files;
-  //   });
-  // }
-
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
 
 //append fileNameDisplay to photo-upload-box
-  fileNameDisplay.className = 'file-name-display';
-  document.querySelector('.photo-upload-box').appendChild(fileNameDisplay);
+  // fileNameDisplay.className = 'file-name-display';
+  // document.querySelector('.photo-upload-box').appendChild(fileNameDisplay);
 
   //ensure modals are hidden by default
   addPhotoModal.style.display = 'none';
@@ -50,13 +43,20 @@ document.addEventListener("DOMContentLoaded", function(){
       reader.onload = function(e) {
         photoPreview.src = e.target.result;
         photoPreview.style.display = 'block';
+        photoIcon.style.display  = 'none';
+        uploadButton.style.display = 'none';
+        document.querySelector('.upload-info').style.display = 'none';
       };
       reader.readAsDataURL(file);
     } else {
       fileNameDisplay.textContent = '';
       photoPreview.style.display = 'none';
+      photoIcon.style.display = 'block';
+      uploadButton.style.display = 'block';
+      document.querySelector('.upload-info').style.display = 'block';
     }
   });
+  
 
 
 
@@ -112,7 +112,6 @@ addPhotoForm.addEventListener('submit', (event) => {
       return response.json();
     })
     .then(data => {
-      if (data.success) {
         console.log('Photo uploaded successfully.');
 
         const work = {
@@ -128,10 +127,8 @@ addPhotoForm.addEventListener('submit', (event) => {
         //close modal
         addPhotoModal.style.display = 'none';
         alert('Photo uploaded successfully!');
-       } else {
-        alert('Failed to upload photo: ' + (data.message || 'Unknown error'));
-       }
-})
+     })
+
 .catch(error => {
   console.error('Error uploading photo: ' + error);
   alert('Failed to upload photo: ' + error.message);

@@ -42,22 +42,22 @@
       <div class="modal-content">
         <span id="close-add-photo-modal" class="close">&times;</span>
         <h2>Add a Photo</h2>
-        <form id="add-photo-form">
-        <div class="photo-upload-box"> 
-             <i class="fa-solid fa-image large-icon"></i><br> 
+      <form id="add-photo-form">
+        <div class="photo-upload-box" id="photoUploadBox"> 
+             <i id="photoIcon" class="fa-solid fa-image large-icon"></i><br> 
              <button type="button" id="upload-button" class="add-photo-button" > 
               <i class="fa-regular fa-plus"></i> Add Photo</button> 
               <br>
              <p class="upload-info">jpg, png: max 4MB</p></div>
-            <input type="file" id="photo-file" name="image" accept="image/*"><br><br>
-           <div id="photoBox">
-            <p id="fileNameDisplay"></p>
+             <p id="fileNameDisplay"></p>
             <img id="photoPreview" src="#" alt="Selected Photo" style="display: none; max-width: 100%; height: auto;">
-           </div>      
+      
+        <input type="file" id="photo-file" name="image" accept="image/*" style="display: none;"><br><br>
+     
+        <div id="photoBox"> 
           <div class="form-group">
-
-          <label for="photo-title">Title:</label>
-          <input type="text" id="photo-title" required><br><br>
+            <label for="photo-title">Title:</label>
+            <input type="text" id="photo-title" required><br><br>
           </div>
           <div class="form-group">
             <label for="photo-category">Category:</label>
@@ -67,11 +67,13 @@
               <option value="2">Apartments</option>
               <option value="3">Hotels and Restaurants</option>
             </select><br><br>
+          </div>
         </div>
           <button type="submit">Confirm</button>
-          </form>
-      </div>
+     </form>
     </div>
+  </div>
+
 
 
     <main>
