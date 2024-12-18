@@ -14,7 +14,17 @@ document.addEventListener("DOMContentLoaded", function(){
   const addPhotoForm = document.getElementById('add-photo-form');
   const uploadButton = document.getElementById('upload-button');
   const photoFileInput = document.getElementById('photo-file');
+  const photoPreview = document.getElementById('photoPreview');
   const fileNameDisplay = document.createElement('p');
+  // const formElement = document.querySelector('form');
+  // if (formElement) {
+  //   formElement.addEventListener('submit', function(event) {
+  //     const files = formElement.querySelector('input[type="file"]').files;
+  //   });
+  // }
+
+
+//append fileNameDisplay to photo-upload-box
   fileNameDisplay.className = 'file-name-display';
   document.querySelector('.photo-upload-box').appendChild(fileNameDisplay);
 
@@ -27,16 +37,28 @@ document.addEventListener("DOMContentLoaded", function(){
     photoFileInput.click();
   });
 
-  //make sure only one file input click is registered
-photoFileInput.addEventListener('change', function() {
-  if (photoFileInput.files.length > 0) {
-    const fileName = photoFileInput.files[0].name;
-    fileNameDisplay.textContent = `Selected file: ${fileName}`;
-    console.log(photoFileInput.files[0]);
-  } else {
-    fileNameDisplay.textContent = '';
-  }
-});
+  // show photo preview after selecting a file
+  photoFileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const fileName = file.name;
+      fileNameDisplay.textContent = 'Selected file: ${fileName}';
+      console.log(file);
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        photoPreview.src = e.target.result;
+        photoPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      fileNameDisplay.textContent = '';
+      photoPreview.style.display = 'none';
+    }
+  });
+
+
 
 //show add photo modal window
 addPhotoButton.addEventListener('click', function() {
@@ -48,6 +70,18 @@ addPhotoButton.addEventListener('click', function() {
     addPhotoModal.style.display = 'none';
   })
 
+  //close project gallery modal
+  closeModalButton.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  //close project gallery window by clicking outside of modal window
+  window.addEventListener('click', function(event) {
+  if (event.target == modal) {
+    modal.style.display = 'none';
+
+  }
+});
 
 //form submission
 addPhotoForm.addEventListener('submit', (event) => {
@@ -291,4 +325,4 @@ function createGalleryItem(work) {
     console.error('Gallery Element not found.');
   }
 }
-})
+}) 
