@@ -32,8 +32,7 @@
         <h2>Photo Gallery</h2>
         <div id="thumbnail-container"></div>
         <button id="add-photo">Add a photo</button>
-       <!-- <input type="file" id="photo-file" accept="image/*" required>   -->
-      </div>
+       </div>
     </div>
 
     <!-- Window for adding photo  -->
@@ -43,19 +42,18 @@
         <span id="close-add-photo-modal" class="close">&times;</span>
         <h2>Add a Photo</h2>
       <form id="add-photo-form">
-        <div class="photo-upload-box" id="photoUploadBox"> 
+        <div class="photo-upload-box" id="photoUploadBox">
              <i id="photoIcon" class="fa-solid fa-image large-icon"></i><br> 
              <button type="button" id="upload-button" class="add-photo-button" > 
-              <i class="fa-regular fa-plus"></i> Add Photo</button> 
+                <i class="fa-regular fa-plus"></i> Add Photo</button> 
               <br>
-             <p class="upload-info">jpg, png: max 4MB</p></div>
+             <p class="upload-info">jpg, png: max 4MB</p>
              <p id="fileNameDisplay"></p>
-            <img id="photoPreview" src="#" alt="Selected Photo" style="display: none; max-width: 100%; height: auto;">
-      
+            <img id="photoPreview" src="#" alt="Selected Photo" style="display: none; max-width: 50%; height: auto;">
+         </div>
         <input type="file" id="photo-file" name="image" accept="image/*" style="display: none;"><br><br>
      
-        <div id="photoBox"> 
-          <div class="form-group">
+        <div class="form-group">
             <label for="photo-title">Title:</label>
             <input type="text" id="photo-title" required><br><br>
           </div>
@@ -68,11 +66,10 @@
               <option value="3">Hotels and Restaurants</option>
             </select><br><br>
           </div>
-        </div>
-          <button type="submit">Confirm</button>
+            <button type="submit">Confirm</button>
      </form>
     </div>
-  </div>
+    </div>
 
 
 
@@ -105,11 +102,10 @@
         <div id="btn-container"></div>
 
         <!-- <div class="filter-buttons"></div> -->
-       <div class="buttons">
-      </div> 
+       <!-- <div class="buttons">
+      </div>  -->
       <div class="catID"></div>
-        <div class="gallery">
-          
+        <div class="gallery">        
         </div>
       </section>
       
@@ -126,7 +122,7 @@
           <input type="submit" value="Send" />
         </form>
       </section>
-    <script defer src="index.js"></script>
+    
   </main>
 
     <footer>
@@ -136,5 +132,6 @@
         </ul>
       </nav>
     </footer>
+    <script defer src="index.js"></script>
   </body>
 </html>

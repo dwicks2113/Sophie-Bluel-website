@@ -1,42 +1,38 @@
 // fetch data from work endpoint(url) -- see Thunderclient or Swagger
-
-
 document.addEventListener("DOMContentLoaded", function(){
-  const btnContainer = document.getElementById('btn-container');
-  const gallery = document.querySelector('.gallery');
-  const projectsLink = document.getElementById('projects-link');
-  const closeModalButton = document.getElementById('close-modal');
-  const modal = document.getElementById('modal');
-  const thumbnailContainer = document.getElementById('thumbnail-container')
   const addPhotoButton = document.getElementById('add-photo');
   const addPhotoModal = document.getElementById('add-photo-modal');
   const closeAddPhotoModalButton = document.getElementById('close-add-photo-modal');
-  const addPhotoForm = document.getElementById('add-photo-form');
   const uploadButton = document.getElementById('upload-button');
   const photoFileInput = document.getElementById('photo-file');
+  const photoIcon = document.getElementById('photoIcon');
   const photoPreview = document.getElementById('photoPreview');
   const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const photoGalleryModal = document.getElementById('modal');
+  const closePhotoGalleryModalButton = document.getElementById('close-modal');
+  const addPhotoForm = document.getElementById('add-photo-form');
+  const thumbnailContainer = document.getElementById('thumbnail-container')
+  const gallery = document.querySelector('.gallery');
+  const btnContainer = document.getElementById('btn-container')
+  const projectsLink = document.getElementById('projects-link')
 
-//append fileNameDisplay to photo-upload-box
-  // fileNameDisplay.className = 'file-name-display';
-  // document.querySelector('.photo-upload-box').appendChild(fileNameDisplay);
-
-  //ensure modals are hidden by default
+  // Ensure modals are hidden by default
   addPhotoModal.style.display = 'none';
-  modal.style.display = 'none';
+  photoGalleryModal.style.display = 'none';
+
 
   //open file selection window when add photo button clicked
   uploadButton.addEventListener('click', function() {
     photoFileInput.click();
   });
-
-  // show photo preview after selecting a file
+  
+ // show photo preview after selecting a file
   photoFileInput.addEventListener('change', function(event) {
     const file = event.target.files[0];
 
     if (file) {
       const fileName = file.name;
-      fileNameDisplay.textContent = 'Selected file: ${fileName}';
+      fileNameDisplay.textContent = `Selected file: ${fileName}`;
       console.log(file);
 
       const reader = new FileReader();
@@ -57,29 +53,30 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   });
   
-
-
-
 //show add photo modal window
 addPhotoButton.addEventListener('click', function() {
+  photoGalleryModal.style.display = 'none';
     addPhotoModal.style.display = 'block';
   });
 
   //close add photo modal window
   closeAddPhotoModalButton.addEventListener('click', function() {
     addPhotoModal.style.display = 'none';
+    photoGalleryModal.style.display = 'block';
   })
 
   //close project gallery modal
-  closeModalButton.addEventListener('click', function() {
-    modal.style.display = 'none';
+  closePhotoGalleryModalButton.addEventListener('click', function() {
+    photoGalleryModal.style.display = 'none';
   });
 
   //close project gallery window by clicking outside of modal window
   window.addEventListener('click', function(event) {
-  if (event.target == modal) {
-    modal.style.display = 'none';
-
+  if (event.target == addPhotoModal) {
+    addPhotoModal.style.display = 'none';
+    photoGalleryModal.style.display = 'block';
+  } else if (event.target == photoGalleryModal) {
+    photoGalleryModal.style.display = 'none';
   }
 });
 
@@ -126,13 +123,17 @@ addPhotoForm.addEventListener('submit', (event) => {
 
         //close modal
         addPhotoModal.style.display = 'none';
+        photoGalleryModal.style.display = 'flex';
+        
+        thumbnailContainer.scrollTop = thumbnailContainer.scrollHeight;
+
         alert('Photo uploaded successfully!');
      })
 
-.catch(error => {
-  console.error('Error uploading photo: ' + error);
-  alert('Failed to upload photo: ' + error.message);
-});
+    .catch(error => {
+      console.error('Error uploading photo: ' + error);
+      alert('Failed to upload photo: ' + error.message);
+    });
   } else {
     alert('Token not found. Please log in again.');
     window.location.href = 'login.html';
@@ -213,11 +214,11 @@ function filterGallery(catID) {
   });
 
   //function to close project modal
-  closeModalButton.addEventListener('click', function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  });
+  // closeModalButton.addEventListener('click', function(event) {
+  //   if (event.target == modal) {
+  //     modal.style.display = 'none';
+  //   }
+  // });
 
   //function to create thumbnail
   function createThumbnail(work) {

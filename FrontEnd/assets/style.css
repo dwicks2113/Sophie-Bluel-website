@@ -48,6 +48,7 @@ table {
 }
 /** end reset css**/
 body {
+	position: relative;
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
@@ -156,34 +157,28 @@ li:hover {
 
 .modal {
 	display: none;
-	position: fixed;
+	/* position: sticky; */
+	/* z-index: 1000;  */
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto;
+	overflow: hidden;
 	background-color: white;
+	display: flex;
 	justify-content: center;
 	align-items: center;
-	display: flex;
 }
 
 .modal-content {
-	position: relative;
+	/* position: relative; */
 	background-color: white;
 	margin: auto;
 	padding: 20px;
 	border-radius: 8px;
 	text-align: center;
 	width: 50%;
-	height: auto;
 	max-width: 600px;
-	/* max-height: 700px; */
-	/* overflow: auto; */
-	/* display: flex;
-	flex-direction: column; */
-
-	/* text-align: center; */
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 	
 }
@@ -223,29 +218,24 @@ button:hover {
 }
 
 .photo-upload-box {
+	text-align: center;
 	width: 100%;
 	max-width: 300px;
-	height: auto;
-	position: relative;
 	background-color: #e8f1f6;
 	border-radius: 10px;
-	/* padding: 20px; */
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	margin: 0 auto;
+	/* position: relative; */
+	
 }
 
 #photoPreview {
-	max-width: 100%;
+	max-width: 50%;
 	height: auto;
 	display: none;
 	margin:  10px auto;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
 
 #photoIcon, .add-photo-button, .upload-info {
@@ -274,9 +264,6 @@ button:hover {
 }
 
 .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
 	color: #aaa;
 	float: right;
 	font-size: 24px;
@@ -321,23 +308,7 @@ button:hover {
 	border-radius: 10%;
 	padding: 2px;
 }
-/* 
-.photo-upload-box {
-	width: 100%;
-	height: auto;
-	background-color: #e8f1f6;
-	border-radius: 3px;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 20px 0;
-} */
-
 .add-photo-label {
-	/* width: 173px;
-	height: 36px; */
 	background-color: #cbd6dc;
 	border-radius: 50px;
 	display: flex;
@@ -467,13 +438,16 @@ h3 {
 	width: 50%;
 margin: auto;
 }
+
 #contact > * {
 	text-align: center;
 
 }
+
 #contact h2{
 	margin-bottom: 20px;
 }
+
 #contact form {
 	text-align: left;
 	margin-top:30px;
@@ -487,9 +461,11 @@ margin: auto;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
 	margin: 2em 0 1em 0;
 }
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
